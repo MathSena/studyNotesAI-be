@@ -5,3 +5,11 @@ spring:
 openai:
   api:
     key: ${OPENAI_API_KEY}
+
+# SpringDoc configurations
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+    path: /doc/swagger-ui.html

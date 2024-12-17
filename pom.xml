@@ -36,59 +36,47 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starter WebFlux (para comunicação reativa) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starter Lombok (para evitar boilerplate code, como getters, setters, etc.) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- Spring Boot DevTools (para recarga automática e outros recursos de desenvolvimento) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>development</scope>
         </dependency>
 
-        <!-- OpenFeign (para consumir a API do ChatGPT) -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
 
-        <!-- Spring Boot Starter Validation (para validação de entradas de dados) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
 
-        <!-- Springdoc OpenAPI (para gerar documentação da API com Swagger) -->
+        <!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
         <dependency>
             <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>1.6.6</version>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.7.0</version>
         </dependency>
 
-        <!-- H2 Database (opcional, para banco de dados em memória, se precisar para persistência local) -->
+
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Dependência para comunicação HTTP com a API externa -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <!-- JUnit 5 para testes unitários -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
@@ -96,19 +84,13 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Mockito para mock de dependências em testes unitários -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>3.6.28</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version> <!-- Verifique a versão mais recente -->
-            <scope>provided</scope>
-        </dependency>
+
         <dependency>
             <groupId>io.github.cdimascio</groupId>
             <artifactId>dotenv-java</artifactId>
@@ -119,8 +101,6 @@
             <artifactId>jackson-databind</artifactId>
         </dependency>
 
-
-        <!-- Spring Boot Starter Test (para suporte a testes) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
