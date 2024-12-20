@@ -37,9 +37,12 @@ public class TopicsController {
 
     try {
       List<String> topics = openAiService.getStudyTopics(topicRequest.getTopic());
-      return ResponseEntity.ok(new TopicResponse(topics));
+      return ResponseEntity.ok()
+          .header("Content-Type", "application/json; charset=UTF-8")
+          .body(new TopicResponse(topics));
     } catch (Exception e) {
       return ResponseEntity.status(500)
+          .header("Content-Type", "application/json; charset=UTF-8")
           .body(new TopicResponse(List.of("Erro ao buscar tópicos: " + e.getMessage())));
     }
   }
