@@ -13,9 +13,3 @@ springdoc:
   swagger-ui:
     enabled: true
     path: /doc/swagger-ui.html
-server:
-  servlet:
-    encoding:
-      enabled: true
-      force: true
-      charset: UTF-8
