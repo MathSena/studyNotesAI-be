@@ -3,9 +3,8 @@ package com.mathsena.studynotesai.models;
 import java.util.List;
 
 public class TopicResponse {
-  private List<String> topics;
 
-  public TopicResponse() {}
+  private List<String> topics;
 
   public TopicResponse(List<String> topics) {
     this.topics = topics;

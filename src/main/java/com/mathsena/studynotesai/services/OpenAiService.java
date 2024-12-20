@@ -17,8 +17,6 @@ public class OpenAiService {
 
   private static final String OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
   private static final String MODEL = "gpt-3.5-turbo";
-  private static final String AUTHORIZATION_HEADER = "Authorization";
-  private static final String CONTENT_TYPE_HEADER = "Content-Type";
   private static final String CONTENT_TYPE_VALUE = "application/json";
 
   @Value("${openai.api.key}")
@@ -33,23 +31,22 @@ public class OpenAiService {
 
       int responseCode = connection.getResponseCode();
       if (responseCode != HttpURLConnection.HTTP_OK) {
-        throw new RuntimeException("Erro na API OpenAI (Código HTTP: " + responseCode + ")");
+        throw new ApiRequestException("Erro na API OpenAI (Código HTTP: " + responseCode + ")");
       }
 
       String response = getResponse(connection);
       return extractTopicsFromResponse(response);
-
     } catch (Exception e) {
-      throw new RuntimeException("Erro ao comunicar com a API OpenAI: " + e.getMessage(), e);
+      throw new ApiRequestException("Erro ao comunicar com a API OpenAI: " + e.getMessage(), e);
     }
   }
 
-  HttpURLConnection setupConnection() throws Exception {
+  private HttpURLConnection setupConnection() throws Exception {
     URL url = new URL(OPENAI_API_URL);
     HttpURLConnection connection = (HttpURLConnection) url.openConnection();
     connection.setRequestMethod("POST");
-    connection.setRequestProperty(AUTHORIZATION_HEADER, "Bearer " + apiKey);
-    connection.setRequestProperty(CONTENT_TYPE_HEADER, CONTENT_TYPE_VALUE);
+    connection.setRequestProperty("Authorization", "Bearer " + apiKey);
+    connection.setRequestProperty("Content-Type", CONTENT_TYPE_VALUE);
     connection.setDoOutput(true);
     return connection;
   }
@@ -59,14 +56,9 @@ public class OpenAiService {
         String.format(
             "Liste passo a passo, de forma sequencial e lógica, os tópicos que uma pessoa deve estudar para se tornar proficiente em '%s'. Inclua fundamentos, tópicos intermediários e avançados.",
             topic);
-
-    return """
-                {
-                  "model": "%s",
-                  "messages": [{"role": "user", "content": "%s"}]
-                }
-                """
-        .formatted(MODEL, prompt);
+    return String.format(
+        "{\"model\": \"%s\", \"messages\": [{\"role\": \"user\", \"content\": \"%s\"}]}",
+        MODEL, prompt);
   }
 
   private void sendRequest(HttpURLConnection connection, String requestBody) throws Exception {
@@ -89,9 +81,8 @@ public class OpenAiService {
   }
 
   private List<String> extractTopicsFromResponse(String response) {
-    ObjectMapper mapper = new ObjectMapper();
     try {
-      JsonNode root = mapper.readTree(response);
+      JsonNode root = new ObjectMapper().readTree(response);
       String responseContent = root.path("choices").get(0).path("message").path("content").asText();
 
       List<String> topics = new ArrayList<>();
@@ -102,8 +93,19 @@ public class OpenAiService {
       }
       return topics;
     } catch (Exception e) {
-      throw new RuntimeException(
+      throw new ApiRequestException(
           "Erro ao processar a resposta da API OpenAI: " + e.getMessage(), e);
+    }
+  }
+
+  // Custom Exception for API Errors
+  public static class ApiRequestException extends RuntimeException {
+    public ApiRequestException(String message) {
+      super(message);
+    }
+
+    public ApiRequestException(String message, Throwable cause) {
+      super(message, cause);
     }
   }
 }
